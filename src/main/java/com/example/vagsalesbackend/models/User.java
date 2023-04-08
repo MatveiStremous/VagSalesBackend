@@ -1,5 +1,6 @@
 package com.example.vagsalesbackend.models;
 
+import com.example.vagsalesbackend.models.enums.Role;
 import lombok.*;
 
 import javax.persistence.*;

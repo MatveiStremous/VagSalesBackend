@@ -1,4 +1,4 @@
-package com.example.vagsalesbackend.models;
+package com.example.vagsalesbackend.models.enums;
 
 public enum Role {
     ROLE_USER, ROLE_MANAGER, ROLE_ADMIN

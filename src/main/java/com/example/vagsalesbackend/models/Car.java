@@ -1,5 +1,7 @@
 package com.example.vagsalesbackend.models;
 
+import com.example.vagsalesbackend.models.enums.BodyType;
+import com.example.vagsalesbackend.models.enums.FuelType;
 import lombok.*;
 
 import javax.persistence.*;

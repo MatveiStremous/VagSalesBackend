@@ -1,6 +1,6 @@
 package com.example.vagsalesbackend.services;
 
-import com.example.vagsalesbackend.models.Role;
+import com.example.vagsalesbackend.models.enums.Role;
 import com.example.vagsalesbackend.models.User;
 import com.example.vagsalesbackend.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
