@@ -1,11 +1,9 @@
 package com.example.vagsalesbackend.services;
 
-import com.example.vagsalesbackend.models.enums.Role;
 import com.example.vagsalesbackend.models.User;
 import com.example.vagsalesbackend.repositories.UserRepository;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,13 +12,10 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
 
-    private final PasswordEncoder passwordEncoder;
-
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    @Autowired
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
     }
-
 
     public List<User> findAll() {
         return userRepository.findAll();
@@ -36,14 +31,10 @@ public class UserService {
         return foundUser.orElse(null);
     }
 
-    @Transactional
-    public void save(User person) {
-        person.setRole(Role.ROLE_USER);
-        person.setPassword(passwordEncoder.encode(person.getPassword()));
-        userRepository.save(person);
+    public void save(User user) {
+        userRepository.save(user);
     }
 
-    @Transactional
     public void update(int id, User updatedUser) {
         updatedUser.setId(id);
         userRepository.save(updatedUser);
