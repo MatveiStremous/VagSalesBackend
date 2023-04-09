@@ -1,18 +1,20 @@
 package com.example.vagsalesbackend.controllers;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.example.vagsalesbackend.dto.AuthDTO;
+import com.example.vagsalesbackend.dto.RegistrationDTO;
 import com.example.vagsalesbackend.dto.UserDTO;
 import com.example.vagsalesbackend.models.User;
 import com.example.vagsalesbackend.security.JWTUtil;
 import com.example.vagsalesbackend.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -47,15 +49,34 @@ public class UserController {
     }
 
     @PostMapping("/registration")
-    public Map<String, String> register(@RequestBody UserDTO userDTO) {
-        User user = convertToPerson(userDTO);
+    public Map<String, String> register(@RequestBody RegistrationDTO registrationDTO) {
+        User user = convertToPerson(registrationDTO);
         userService.save(user);
 
-        String token = jwtUtil.generateAccessToken(userService.findByEmail(userDTO.getEmail()));
+        String token = jwtUtil.generateAccessToken(userService.findByEmail(registrationDTO.getEmail()));
         return Map.of("jwt-token", token);
     }
 
-    private User convertToPerson(UserDTO userDTO){
-        return this.modelMapper.map(userDTO, User.class);
+    @GetMapping("/validateToken")
+    public ResponseEntity<String> validateToken(@RequestHeader("Authorization") String fullToken){
+        String token = fullToken.substring(7);
+        try {
+            jwtUtil.validateToken(token);
+        } catch (TokenExpiredException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired token");
+        }
+        return ResponseEntity.ok("Token is valid");
+    }
+
+    @GetMapping("/getUserInfo")
+    public ResponseEntity<UserDTO> getUserInfo(@RequestHeader("Authorization") String fullToken){
+        String token = fullToken.substring(7);
+        String email = jwtUtil.validateToken(token);
+        User user = userService.findByEmail(email);
+        return ResponseEntity.ok(this.modelMapper.map(user, UserDTO.class));
+    }
+
+    private User convertToPerson(RegistrationDTO registrationDTO){
+        return this.modelMapper.map(registrationDTO, User.class);
     }
 }
