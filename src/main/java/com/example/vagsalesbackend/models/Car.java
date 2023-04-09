@@ -2,6 +2,7 @@ package com.example.vagsalesbackend.models;
 
 import com.example.vagsalesbackend.models.enums.BodyType;
 import com.example.vagsalesbackend.models.enums.FuelType;
+import com.example.vagsalesbackend.models.enums.Transmission;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,11 +26,16 @@ public class Car {
     @Enumerated(EnumType.STRING)
     private FuelType fuelType;
 
-    private Integer engineCapacity;
+    @Enumerated(EnumType.STRING)
+    private Transmission transmission;
 
-    private Integer price;
+    private Double engineCapacity;
 
     private Year year;
+
+    private String imageURL;
+
+    private String description;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     private Model model;
