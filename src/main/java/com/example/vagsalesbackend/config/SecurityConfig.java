@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/login", "/registration").permitAll()
+                .antMatchers("/login", "/registration", "/**").permitAll()
                 .anyRequest().hasAnyRole("USER", "ADMIN", "MANAGER")
                 .and()
                 .sessionManagement()
