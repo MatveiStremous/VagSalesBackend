@@ -3,6 +3,7 @@ package com.example.vagsalesbackend.services;
 import com.example.vagsalesbackend.models.Model;
 import com.example.vagsalesbackend.repositories.ModelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class ModelService {
     }
 
     public List<Model> getAll() {
-        return modelRepository.findAll();
+        return modelRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
     public Model getById(int id) {

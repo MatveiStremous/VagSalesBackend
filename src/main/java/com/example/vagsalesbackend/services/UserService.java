@@ -3,6 +3,7 @@ package com.example.vagsalesbackend.services;
 import com.example.vagsalesbackend.models.User;
 import com.example.vagsalesbackend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class UserService {
     }
 
     public List<User> findAll() {
-        return userRepository.findAll();
+        return userRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
     public User findOne(int id) {

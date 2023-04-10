@@ -6,6 +6,7 @@ import com.example.vagsalesbackend.repositories.BrandRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class BrandService {
     }
 
     public List<BrandResponse> getAll() {
-        List<Brand> brands = brandRepository.findAll();
+        List<Brand> brands = brandRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
         return modelMapper.map(brands, new TypeToken<List<BrandResponse>>() {}.getType());
     }
 
