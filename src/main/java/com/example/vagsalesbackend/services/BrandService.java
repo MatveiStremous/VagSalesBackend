@@ -1,7 +1,10 @@
 package com.example.vagsalesbackend.services;
 
+import com.example.vagsalesbackend.dto.BrandResponse;
 import com.example.vagsalesbackend.models.Brand;
 import com.example.vagsalesbackend.repositories.BrandRepository;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,14 +14,17 @@ import java.util.Optional;
 @Service
 public class BrandService {
     private final BrandRepository brandRepository;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public BrandService(BrandRepository brandRepository) {
+    public BrandService(BrandRepository brandRepository, ModelMapper modelMapper) {
         this.brandRepository = brandRepository;
+        this.modelMapper = modelMapper;
     }
 
-    public List<Brand> getAll() {
-        return brandRepository.findAll();
+    public List<BrandResponse> getAll() {
+        List<Brand> brands = brandRepository.findAll();
+        return modelMapper.map(brands, new TypeToken<List<BrandResponse>>() {}.getType());
     }
 
     public Brand getById(int id) {
@@ -33,5 +39,9 @@ public class BrandService {
     public void update(int id, Brand updatedBrand) {
         updatedBrand.setId(id);
         brandRepository.save(updatedBrand);
+    }
+
+    public void delete(int id){
+        brandRepository.delete(getById(id));
     }
 }
