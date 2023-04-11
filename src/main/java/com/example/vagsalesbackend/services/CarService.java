@@ -1,5 +1,6 @@
 package com.example.vagsalesbackend.services;
 
+import com.example.vagsalesbackend.dto.CarResponse;
 import com.example.vagsalesbackend.models.Car;
 import com.example.vagsalesbackend.repositories.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,21 @@ public class CarService {
         this.carRepository = carRepository;
     }
 
-    public List<Car> getAll() {
-        return carRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+    public List<CarResponse> getAll() {
+        List<Car> cars = carRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+        return cars
+                .stream()
+                .map(car -> CarResponse.builder()
+                        .id(car.getId())
+                        .imageURL(car.getImageURL())
+                        .transmission(car.getTransmission().getPrefix())
+                        .bodyType(car.getBodyType().getPrefix())
+                        .year(String.valueOf(car.getYear()))
+                        .engineCapacity(car.getEngineCapacity())
+                        .modelName(car.getModel().getName())
+                        .brandName(car.getModel().getBrand().getName())
+                        .build())
+                .toList();
     }
 
     public Car getById(int id) {
@@ -34,5 +48,9 @@ public class CarService {
     public void update(int id, Car updatedCar) {
         updatedCar.setId(id);
         carRepository.save(updatedCar);
+    }
+
+    public void delete(int id) {
+        carRepository.delete(getById(id));
     }
 }

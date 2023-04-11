@@ -40,7 +40,7 @@ public class ModelController {
     }
 
     @PutMapping("/model/{id}")
-    public ResponseEntity<String> deleteModelById(@RequestBody ModelDTO modelDTO, @PathVariable Integer id){
+    public ResponseEntity<String> updateModelById(@RequestBody ModelDTO modelDTO, @PathVariable Integer id){
         modelService.update(id, convertToModel(modelDTO));
         return ResponseEntity.ok("Successfully changed");
     }

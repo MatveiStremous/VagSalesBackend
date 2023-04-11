@@ -40,7 +40,7 @@ public class BrandController {
     }
 
     @PutMapping("/brand/{id}")
-    public ResponseEntity<String> deleteBrandById(@RequestBody BrandDTO brandDTO, @PathVariable Integer id){
+    public ResponseEntity<String> updateBrandById(@RequestBody BrandDTO brandDTO, @PathVariable Integer id){
         brandService.update(id, convertToBrand(brandDTO));
         return ResponseEntity.ok("Successfully changed");
     }
