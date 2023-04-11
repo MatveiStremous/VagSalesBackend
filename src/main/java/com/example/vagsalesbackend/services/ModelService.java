@@ -1,5 +1,6 @@
 package com.example.vagsalesbackend.services;
 
+import com.example.vagsalesbackend.dto.ModelResponse;
 import com.example.vagsalesbackend.models.Model;
 import com.example.vagsalesbackend.repositories.ModelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,17 @@ public class ModelService {
         this.modelRepository = modelRepository;
     }
 
-    public List<Model> getAll() {
-        return modelRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+    public List<ModelResponse> getAll() {
+        List<Model> models =  modelRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+        return models
+                .stream()
+                .map(model -> ModelResponse.builder()
+                        .id(model.getId())
+                        .name(model.getName())
+                        .description(model.getDescription())
+                        .brandId(model.getBrand().getId())
+                        .build())
+                .toList();
     }
 
     public Model getById(int id) {
@@ -34,5 +44,10 @@ public class ModelService {
     public void update(int id, Model updatedModel) {
         updatedModel.setId(id);
         modelRepository.save(updatedModel);
+    }
+
+
+    public void delete(int id) {
+        modelRepository.delete(getById(id));
     }
 }
