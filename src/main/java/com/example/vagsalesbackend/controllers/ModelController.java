@@ -33,6 +33,11 @@ public class ModelController {
         return modelService.getAll();
     }
 
+    @GetMapping("/models/{brandId}")
+    public List<ModelResponse> getAllModels(@PathVariable Integer brandId){
+        return modelService.getAllByBrandId(brandId);
+    }
+
     @DeleteMapping("/model/{id}")
     public ResponseEntity<String> deleteModelById(@PathVariable Integer id){
         modelService.delete(id);

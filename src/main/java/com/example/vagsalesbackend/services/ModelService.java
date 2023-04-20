@@ -32,6 +32,14 @@ public class ModelService {
                 .toList();
     }
 
+    public List<ModelResponse> getAllByBrandId(Integer brandId) {
+        List<ModelResponse> models = this.getAll()
+                .stream()
+                .filter(modelResponse -> modelResponse.getBrandId().equals(brandId))
+                .toList();
+        return models;
+    }
+
     public Model getById(int id) {
         Optional<Model> foundModel = modelRepository.findById(id);
         return foundModel.orElse(null);
@@ -45,7 +53,6 @@ public class ModelService {
         updatedModel.setId(id);
         modelRepository.save(updatedModel);
     }
-
 
     public void delete(int id) {
         modelRepository.delete(getById(id));
