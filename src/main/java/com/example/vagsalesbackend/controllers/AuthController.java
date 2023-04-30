@@ -1,8 +1,8 @@
 package com.example.vagsalesbackend.controllers;
 
-import com.example.vagsalesbackend.dto.AuthDTO;
-import com.example.vagsalesbackend.dto.RegistrationDTO;
-import com.example.vagsalesbackend.dto.UserDTO;
+import com.example.vagsalesbackend.dto.requests.AuthDTO;
+import com.example.vagsalesbackend.dto.requests.RegistrationDTO;
+import com.example.vagsalesbackend.dto.requests.UserDTO;
 import com.example.vagsalesbackend.models.User;
 import com.example.vagsalesbackend.security.JWTUtil;
 import com.example.vagsalesbackend.services.AuthService;

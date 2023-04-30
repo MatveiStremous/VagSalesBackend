@@ -1,7 +1,7 @@
 package com.example.vagsalesbackend.controllers;
 
-import com.example.vagsalesbackend.dto.BrandDTO;
-import com.example.vagsalesbackend.dto.BrandResponse;
+import com.example.vagsalesbackend.dto.requests.BrandDTO;
+import com.example.vagsalesbackend.dto.responses.BrandResponse;
 import com.example.vagsalesbackend.models.Brand;
 import com.example.vagsalesbackend.services.BrandService;
 import org.modelmapper.ModelMapper;

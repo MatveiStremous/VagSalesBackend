@@ -1,7 +1,7 @@
 package com.example.vagsalesbackend.controllers;
 
-import com.example.vagsalesbackend.dto.ModelDTO;
-import com.example.vagsalesbackend.dto.ModelResponse;
+import com.example.vagsalesbackend.dto.requests.ModelDTO;
+import com.example.vagsalesbackend.dto.responses.ModelResponse;
 import com.example.vagsalesbackend.models.Model;
 import com.example.vagsalesbackend.services.BrandService;
 import com.example.vagsalesbackend.services.ModelService;
@@ -25,7 +25,7 @@ public class ModelController {
     @PostMapping("/model")
     public ResponseEntity<String> addNewModel(@RequestBody ModelDTO modelDTO) {
         modelService.save(convertToModel(modelDTO));
-        return ResponseEntity.ok("Модель успешно удалена.");
+        return ResponseEntity.ok("Модель успешно добавлена.");
     }
 
     @GetMapping("/models")

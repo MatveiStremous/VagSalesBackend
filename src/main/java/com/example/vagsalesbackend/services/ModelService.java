@@ -1,6 +1,6 @@
 package com.example.vagsalesbackend.services;
 
-import com.example.vagsalesbackend.dto.ModelResponse;
+import com.example.vagsalesbackend.dto.responses.ModelResponse;
 import com.example.vagsalesbackend.models.Model;
 import com.example.vagsalesbackend.repositories.ModelRepository;
 import org.springframework.beans.factory.annotation.Autowired;

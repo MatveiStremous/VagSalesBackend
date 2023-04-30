@@ -1,4 +1,4 @@
-package com.example.vagsalesbackend.dto;
+package com.example.vagsalesbackend.dto.responses;
 
 import lombok.*;
 

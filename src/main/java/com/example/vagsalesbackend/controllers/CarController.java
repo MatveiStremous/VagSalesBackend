@@ -1,9 +1,9 @@
 package com.example.vagsalesbackend.controllers;
 
-import com.example.vagsalesbackend.dto.CarDTO;
-import com.example.vagsalesbackend.dto.CarEnumsResponse;
-import com.example.vagsalesbackend.dto.CarInfoResponse;
-import com.example.vagsalesbackend.dto.CarResponse;
+import com.example.vagsalesbackend.dto.requests.CarDTO;
+import com.example.vagsalesbackend.dto.responses.CarEnumsResponse;
+import com.example.vagsalesbackend.dto.responses.CarInfoResponse;
+import com.example.vagsalesbackend.dto.responses.CarResponse;
 import com.example.vagsalesbackend.models.Car;
 import com.example.vagsalesbackend.models.enums.BodyType;
 import com.example.vagsalesbackend.models.enums.FuelType;

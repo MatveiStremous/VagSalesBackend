@@ -3,7 +3,6 @@ package com.example.vagsalesbackend.models;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,5 +24,5 @@ public class Model {
     private Brand brand;
 
     @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, mappedBy = "model")
-    List<Car> cars = new ArrayList<>();
+    private List<Car> cars;
 }
