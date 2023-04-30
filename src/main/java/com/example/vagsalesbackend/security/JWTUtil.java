@@ -32,13 +32,18 @@ public class JWTUtil {
                 .sign(Algorithm.HMAC256(accessSecret));
     }
 
-    public String validateToken(String token) throws JWTVerificationException {
+    public boolean validateToken(String token) throws JWTVerificationException {
         JWTVerifier verifier = JWT.require(Algorithm.HMAC256(accessSecret))
                 .withSubject("User details")
                 .withIssuer("VagSales")
                 .build();
 
-        DecodedJWT jwt = verifier.verify(token);
-        return jwt.getClaim("email").asString();
+        verifier.verify(token);
+        return true;
+    }
+
+    public String getUserNameFromToken(String token){
+        DecodedJWT decodedJWT = JWT.decode(token);
+        return decodedJWT.getClaim("email").asString();
     }
 }

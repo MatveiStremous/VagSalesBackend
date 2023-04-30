@@ -25,7 +25,7 @@ public class ModelController {
     @PostMapping("/model")
     public ResponseEntity<String> addNewModel(@RequestBody ModelDTO modelDTO) {
         modelService.save(convertToModel(modelDTO));
-        return ResponseEntity.ok("Successfully added");
+        return ResponseEntity.ok("Модель успешно удалена.");
     }
 
     @GetMapping("/models")
@@ -41,13 +41,13 @@ public class ModelController {
     @DeleteMapping("/model/{id}")
     public ResponseEntity<String> deleteModelById(@PathVariable Integer id){
         modelService.delete(id);
-        return ResponseEntity.ok("Successfully removed");
+        return ResponseEntity.ok("Модель успешно удалена.");
     }
 
     @PutMapping("/model/{id}")
     public ResponseEntity<String> updateModelById(@RequestBody ModelDTO modelDTO, @PathVariable Integer id){
         modelService.update(id, convertToModel(modelDTO));
-        return ResponseEntity.ok("Successfully changed");
+        return ResponseEntity.ok("Модель успешно обновлена.");
     }
 
 

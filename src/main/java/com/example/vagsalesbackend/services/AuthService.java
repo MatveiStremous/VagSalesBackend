@@ -2,8 +2,9 @@ package com.example.vagsalesbackend.services;
 
 import com.example.vagsalesbackend.models.User;
 import com.example.vagsalesbackend.models.enums.Role;
-import com.example.vagsalesbackend.util.exceptions.LoginAlreadyInUseException;
+import com.example.vagsalesbackend.util.exceptions.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,14 +20,14 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void register(User user){
+    public void register(User user) {
         User userFromDB = userService.findByEmail(user.getEmail());
-        if(userFromDB==null){
+        if (userFromDB == null) {
             user.setRole(Role.ROLE_USER);
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userService.save(user);
-        }else{
-            throw new LoginAlreadyInUseException();
+        } else {
+            throw new BusinessException(HttpStatus.CONFLICT, "Аккаунт с данной почтой уже зарегистрирован.");
         }
     }
 }

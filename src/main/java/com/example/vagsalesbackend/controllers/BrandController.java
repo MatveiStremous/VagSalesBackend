@@ -25,7 +25,7 @@ public class BrandController {
     @PostMapping("/brand")
     public ResponseEntity<String> addNewBrand(@RequestBody BrandDTO brandDTO) {
         brandService.save(convertToBrand(brandDTO));
-        return ResponseEntity.ok("Successfully added");
+        return ResponseEntity.ok("Бренд успешно добавлен.");
     }
 
     @GetMapping("/brands")
@@ -36,13 +36,13 @@ public class BrandController {
     @DeleteMapping("/brand/{id}")
     public ResponseEntity<String> deleteBrandById(@PathVariable Integer id){
         brandService.delete(id);
-        return ResponseEntity.ok("Successfully removed");
+        return ResponseEntity.ok("Бренд успешно удалён.");
     }
 
     @PutMapping("/brand/{id}")
     public ResponseEntity<String> updateBrandById(@RequestBody BrandDTO brandDTO, @PathVariable Integer id){
         brandService.update(id, convertToBrand(brandDTO));
-        return ResponseEntity.ok("Successfully changed");
+        return ResponseEntity.ok("Бренд успешно обновлён.");
     }
 
 

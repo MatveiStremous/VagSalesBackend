@@ -31,7 +31,7 @@ public class CarController {
     @PostMapping("/car")
     public ResponseEntity<String> addNewCar(@RequestBody CarDTO carDTO) {
         carService.save(convertToCar(carDTO));
-        return ResponseEntity.ok("Successfully added");
+        return ResponseEntity.ok("Машина успешно добавлена.");
     }
 
     @GetMapping("/cars")
@@ -52,13 +52,13 @@ public class CarController {
     @DeleteMapping("/car/{id}")
     public ResponseEntity<String> deleteCarById(@PathVariable Integer id) {
         carService.delete(id);
-        return ResponseEntity.ok("Successfully removed");
+        return ResponseEntity.ok("Машина успешно удалена.");
     }
 
     @PutMapping("/car/{id}")
     public ResponseEntity<String> updateCarById(@RequestBody CarDTO carDTO, @PathVariable Integer id) {
         carService.update(id, convertToCar(carDTO));
-        return ResponseEntity.ok("Successfully changed");
+        return ResponseEntity.ok("Машина успешно обновлена.");
     }
 
     private Car convertToCar(CarDTO carDTO) {

@@ -1,6 +1,5 @@
 package com.example.vagsalesbackend.controllers;
 
-import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.example.vagsalesbackend.dto.AuthDTO;
 import com.example.vagsalesbackend.dto.RegistrationDTO;
 import com.example.vagsalesbackend.dto.UserDTO;
@@ -8,8 +7,8 @@ import com.example.vagsalesbackend.models.User;
 import com.example.vagsalesbackend.security.JWTUtil;
 import com.example.vagsalesbackend.services.AuthService;
 import com.example.vagsalesbackend.services.UserService;
+import com.example.vagsalesbackend.util.exceptions.BusinessException;
 import com.example.vagsalesbackend.util.exceptions.ErrorResponse;
-import com.example.vagsalesbackend.util.exceptions.LoginAlreadyInUseException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,8 +49,7 @@ public class AuthController {
 
     @ExceptionHandler
     private ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException e){
-        ErrorResponse response = new ErrorResponse("Invalid credentials");
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        throw new BusinessException(HttpStatus.BAD_REQUEST, "Неверно введены логин или пароль");
     }
 
     @PostMapping("/registration")
@@ -59,33 +57,21 @@ public class AuthController {
         User user = convertToPerson(registrationDTO);
         authService.register(user);
 
-        return ResponseEntity.ok("Success");
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<ErrorResponse> handleUsedLoginException(LoginAlreadyInUseException e){
-        ErrorResponse response = new ErrorResponse("This login is already in use");
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return ResponseEntity.ok("Регистрация прошла успешно");
     }
 
     @GetMapping("/validateToken")
     public ResponseEntity<String> validateToken(@RequestHeader("Authorization") String fullToken){
         String token = fullToken.substring(7);
         jwtUtil.validateToken(token);
-
-        return ResponseEntity.ok("Token is valid");
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<ErrorResponse> handleTokenException(TokenExpiredException e){
-        ErrorResponse response = new ErrorResponse("Invalid or expired token.");
-        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        return ResponseEntity.ok("Токен валиден");
     }
 
     @GetMapping("/getUserInfo")
     public ResponseEntity<UserDTO> getUserInfo(@RequestHeader("Authorization") String fullToken){
         String token = fullToken.substring(7);
-        String email = jwtUtil.validateToken(token);
+        jwtUtil.validateToken(token);
+        String email = jwtUtil.getUserNameFromToken(token);
         User user = userService.findByEmail(email);
         return ResponseEntity.ok(this.modelMapper.map(user, UserDTO.class));
     }
