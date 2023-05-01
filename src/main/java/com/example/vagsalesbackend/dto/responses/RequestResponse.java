@@ -2,6 +2,8 @@ package com.example.vagsalesbackend.dto.responses;
 
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Builder
 @Setter
 @Getter
@@ -19,4 +21,6 @@ public class RequestResponse {
     private String phone;
 
     private Integer carId;
+
+    private LocalDate date;
 }

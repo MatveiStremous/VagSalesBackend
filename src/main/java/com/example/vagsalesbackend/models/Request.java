@@ -4,6 +4,7 @@ import com.example.vagsalesbackend.models.enums.RequestStatus;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table
@@ -26,6 +27,13 @@ public class Request {
 
     private String phone;
 
+    private LocalDate date;
+
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     private Car car;
+
+    @PrePersist
+    public void setDate() {
+        this.date = LocalDate.now();
+    }
 }

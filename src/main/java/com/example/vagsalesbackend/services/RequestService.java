@@ -30,6 +30,7 @@ public class RequestService {
                         .carId(request.getCar().getId())
                         .phone(request.getPhone())
                         .status(request.getStatus().getPrefix())
+                        .date(request.getDate())
                         .build())
                 .toList();
     }
@@ -53,6 +54,7 @@ public class RequestService {
 
     public void update(int id, Request updatedRequest) {
         updatedRequest.setId(id);
+        updatedRequest.setDate(requestRepository.getById(id).getDate());
         requestRepository.save(updatedRequest);
     }
 

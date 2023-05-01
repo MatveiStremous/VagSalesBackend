@@ -35,7 +35,7 @@ public class RequestController {
     }
 
     @GetMapping("/requests/{email}")
-    public List<RequestResponse> getAllRequests(@PathVariable String email) {
+    public List<RequestResponse> getAllRequestsByEmail(@PathVariable String email) {
         return requestService.getAllByUserEmail(email);
     }
 
