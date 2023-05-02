@@ -2,6 +2,7 @@ package com.example.vagsalesbackend.controllers;
 
 import com.example.vagsalesbackend.dto.requests.RequestDTO;
 import com.example.vagsalesbackend.dto.responses.RequestResponse;
+import com.example.vagsalesbackend.dto.responses.StatisticDataResponse;
 import com.example.vagsalesbackend.models.Request;
 import com.example.vagsalesbackend.models.enums.RequestStatus;
 import com.example.vagsalesbackend.services.CarService;
@@ -57,6 +58,16 @@ public class RequestController {
         request.setStatus(RequestStatus.valueOf(status));
         requestService.update(id, request);
         return ResponseEntity.ok("Заявка успешно обновлена.");
+    }
+
+    @GetMapping("/daysdata")
+    public List<StatisticDataResponse> getStatisticByDay() {
+        return requestService.getStatisticByDays();
+    }
+
+    @GetMapping("/carsdata")
+    public List<StatisticDataResponse> getStatisticByCars() {
+        return requestService.getStatisticByCars();
     }
 
     private Request convertToRequest(RequestDTO requestDTO) {
