@@ -1,8 +1,6 @@
 package com.example.vagsalesbackend.controllers;
 
-import com.example.vagsalesbackend.dto.requests.AuthDTO;
-import com.example.vagsalesbackend.dto.requests.RegistrationDTO;
-import com.example.vagsalesbackend.dto.requests.UserDTO;
+import com.example.vagsalesbackend.dto.requests.*;
 import com.example.vagsalesbackend.models.User;
 import com.example.vagsalesbackend.security.JWTUtil;
 import com.example.vagsalesbackend.services.AuthService;
@@ -74,6 +72,27 @@ public class AuthController {
         String email = jwtUtil.getUserNameFromToken(token);
         User user = userService.findByEmail(email);
         return ResponseEntity.ok(this.modelMapper.map(user, UserDTO.class));
+    }
+
+    @PutMapping("/changepassword")
+    public ResponseEntity<String> changePassword(@RequestHeader("Authorization") String fullToken, @RequestBody ChangePasswordDTO changePasswordDTO){
+        String token = fullToken.substring(7);
+        User user = userService.findByEmail(jwtUtil.getUserNameFromToken(token));
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(user.getEmail(), changePasswordDTO.getOldPassword());
+        try {
+            authenticationManager.authenticate(authenticationToken);
+        }catch (BadCredentialsException e){
+            throw new BusinessException(HttpStatus.CONFLICT, "Неверно введён старый пароль.");
+        }
+        userService.changePassword(user, changePasswordDTO);
+        return ResponseEntity.ok("Пароль успешно сменён");
+    }
+
+    @PutMapping("/changeinfo")
+    public ResponseEntity<String> changePassword(@RequestBody ChangeUserInfoDTO changePasswordDTO){
+        userService.changeUserInfo(changePasswordDTO);
+        return ResponseEntity.ok("Информация успешно изменена.");
     }
 
     private User convertToPerson(RegistrationDTO registrationDTO){

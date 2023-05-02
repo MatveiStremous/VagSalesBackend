@@ -1,9 +1,12 @@
 package com.example.vagsalesbackend.services;
 
+import com.example.vagsalesbackend.dto.requests.ChangePasswordDTO;
+import com.example.vagsalesbackend.dto.requests.ChangeUserInfoDTO;
 import com.example.vagsalesbackend.models.User;
 import com.example.vagsalesbackend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,10 +15,12 @@ import java.util.Optional;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<User> findAll() {
@@ -39,5 +44,17 @@ public class UserService {
     public void update(int id, User updatedUser) {
         updatedUser.setId(id);
         userRepository.save(updatedUser);
+    }
+
+    public void changePassword(User user, ChangePasswordDTO changePasswordDTO) {
+        user.setPassword(passwordEncoder.encode(changePasswordDTO.getNewPassword()));
+        update(user.getId(), user);
+    }
+
+    public void changeUserInfo(ChangeUserInfoDTO changeUserInfoDTO) {
+        User user = findByEmail(changeUserInfoDTO.getEmail());
+        user.setName(changeUserInfoDTO.getName());
+        user.setPhone(changeUserInfoDTO.getPhone());
+        update(user.getId(), user);
     }
 }
