@@ -20,7 +20,7 @@ public class RequestResponse {
 
     private String phone;
 
-    private Integer carId;
+    private String carName;
 
     private LocalDate date;
 }

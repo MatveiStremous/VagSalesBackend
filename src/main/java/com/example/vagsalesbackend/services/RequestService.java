@@ -30,7 +30,8 @@ public class RequestService {
                         .id(request.getId())
                         .name(request.getName())
                         .email(request.getEmail())
-                        .carId(request.getCar().getId())
+                        .carName(request.getCar().getModel().getBrand().getName()+" "
+                                +request.getCar().getModel().getName())
                         .phone(request.getPhone())
                         .status(request.getStatus().getPrefix())
                         .date(request.getDate())

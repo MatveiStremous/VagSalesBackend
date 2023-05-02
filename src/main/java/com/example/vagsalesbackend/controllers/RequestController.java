@@ -52,10 +52,10 @@ public class RequestController {
         return ResponseEntity.ok("Заявка успешно обновлена.");
     }
 
-    @PutMapping("/request/status/{id}")
-    public ResponseEntity<String> updateRequestStatusById(@RequestBody String status, @PathVariable Integer id) {
+    @PutMapping("/request/status/{id}/{status}")
+    public ResponseEntity<String> updateRequestStatusById(@PathVariable String status, @PathVariable Integer id) {
         Request request = requestService.getById(id);
-        request.setStatus(RequestStatus.valueOf(status));
+        request.setStatus(RequestStatus.getByPrefix(status));
         requestService.update(id, request);
         return ResponseEntity.ok("Заявка успешно обновлена.");
     }
