@@ -2,6 +2,7 @@ package com.example.vagsalesbackend.services;
 
 import com.example.vagsalesbackend.dto.requests.ChangePasswordDTO;
 import com.example.vagsalesbackend.dto.requests.ChangeUserInfoDTO;
+import com.example.vagsalesbackend.dto.responses.UserResponse;
 import com.example.vagsalesbackend.models.User;
 import com.example.vagsalesbackend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,18 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public List<User> findAll() {
-        return userRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+    public List<UserResponse> findAll() {
+        List<User> users = userRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+        return users
+                .stream()
+                .map(user -> UserResponse.builder()
+                        .id(user.getId())
+                        .name(user.getName())
+                        .email(user.getEmail())
+                        .phone(user.getPhone())
+                        .role(user.getRole().getPrefix())
+                        .build())
+                .toList();
     }
 
     public User findOne(int id) {
