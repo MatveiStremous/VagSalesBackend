@@ -3,6 +3,7 @@ package com.example.vagsalesbackend.models.enums;
 public enum RequestStatus {
     CANCELLED("Отменена"),
     DECORATED("Оформлена"),
+    PROCESSING("Обрабатывается"),
     COMPLETED("Выполнена");
 
     private final String prefix;
