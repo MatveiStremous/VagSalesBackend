@@ -20,6 +20,6 @@ public class Brand {
 
     private String name;
 
-    @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, mappedBy = "brand")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "brand")
     List<Model> models = new ArrayList<>();
 }

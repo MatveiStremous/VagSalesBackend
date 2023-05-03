@@ -57,7 +57,15 @@ public class CarController {
 
     @PutMapping("/car/{id}")
     public ResponseEntity<String> updateCarById(@RequestBody CarDTO carDTO, @PathVariable Integer id) {
-        carService.update(id, convertToCar(carDTO));
+        Car car = carService.getById(id);
+        car.setYear(Year.parse(carDTO.getYear()));
+        car.setDescription(carDTO.getDescription());
+        car.setBodyType(BodyType.getByPrefix(carDTO.getBodyType()));
+        car.setEngineCapacity(carDTO.getEngineCapacity());
+        car.setFuelType(FuelType.getByPrefix(carDTO.getFuelType()));
+        car.setImageURL(carDTO.getImageURL());
+        car.setTransmission(Transmission.getByPrefix(carDTO.getTransmission()));
+        carService.update(id, car);
         return ResponseEntity.ok("Машина успешно обновлена.");
     }
 
