@@ -34,6 +34,13 @@ public class QuestionController {
         return ResponseEntity.ok("Ответ успешно отправлен.");
     }
 
+    @DeleteMapping("/answer/{id}")
+    public ResponseEntity<String> deleteQuestion(@PathVariable Integer id) {
+        questionService.delete(id);
+        return ResponseEntity.ok("Вопрос успешно удалён.");
+    }
+
+
     @GetMapping("/questions")
     public List<BrandResponse> getAllQuestions(){
         return questionService.getAll();
